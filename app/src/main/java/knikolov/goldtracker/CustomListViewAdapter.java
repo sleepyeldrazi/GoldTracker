@@ -4,53 +4,49 @@ import java.util.HashMap;
 
 import android.app.Activity;
 import android.content.Context;
+import android.support.annotation.LayoutRes;
+import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-public class CustomListViewAdapter extends BaseAdapter {
+public class CustomListViewAdapter extends ArrayAdapter<String> {
 
-    private Activity activity;
-    private ArrayList<HashMap<String, String>> data;
-    private static LayoutInflater inflater=null;
+    private Activity context;
+    private String[] expenseName;
+    private String[] expenseDate;
+    private Float[] expenseSum;
 
-    public CustomListViewAdapter(Activity a, ArrayList<HashMap<String, String>> d) {
-        activity = a;
-        data=d;
-        inflater = (LayoutInflater)activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+
+    public CustomListViewAdapter(Activity context, String[] expenseName, String[] expenseDate, Float[] expenseSum) {
+        super(context, R.layout.custom_list_view, expenseName);
+        this.context = context;
+        this.expenseName = expenseName;
+        this.expenseDate = expenseDate;
+        this.expenseSum = expenseSum;
     }
 
-    public int getCount() {
-        return data.size();
-    }
-
-    public Object getItem(int position) {
-        return position;
-    }
-
-    public long getItemId(int position) {
-        return position;
+    public String[] getExpenseName() {
+        return expenseName;
     }
 
     public View getView(int position, View convertView, ViewGroup parent) {
-        View vi=convertView;
-        if(convertView==null)
-            vi = inflater.inflate(R.layout.custom_list_view, null);
+        LayoutInflater inflater = context.getLayoutInflater();
+        View vi= inflater.inflate(R.layout.custom_list_view, null, true);
 
-        TextView reason = (TextView)vi.findViewById(R.id.reasonOfExpense); // title
-        TextView date = (TextView)vi.findViewById(R.id.dateOfExpense); // artist name
-        TextView sum = (TextView)vi.findViewById(R.id.sumOfExpense); // duration
+        TextView reason = vi.findViewById(R.id.reasonOfExpense); // title
+        TextView date = vi.findViewById(R.id.dateOfExpense); // artist name
+        TextView sum = vi.findViewById(R.id.sumOfExpense); // duration
 
-        HashMap<String, String> song = new HashMap<String, String>();
-        song = data.get(position);
 
         // Setting all values in listview
-        reason.setText(song.get(MainActivity.KEY_REASON));
-        date.setText(song.get(MainActivity.KEY_DATE));
-        sum.setText(song.get(MainActivity.KEY_SUM));
+        reason.setText(expenseName[position]);
+        date.setText(expenseDate[position]);
+        sum.setText(String.format("%.2f", expenseSum[position]) + " €");
         return vi;
     }
 }
