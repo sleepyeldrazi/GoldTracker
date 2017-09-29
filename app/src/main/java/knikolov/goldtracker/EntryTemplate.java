@@ -27,15 +27,8 @@ public class EntryTemplate {
         return date;
     }
 
-    public void setDate(String date) {
-        this.date = date;
-    }
-
     public float getSum() {
         return sum;
     }
 
-    public void setSum(float sum) {
-        this.sum = sum;
-    }
 }

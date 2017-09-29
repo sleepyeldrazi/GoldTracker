@@ -3,7 +3,6 @@ package knikolov.goldtracker;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.util.Log;
 
 /**
  * Created by Konik on 9/24/17.
@@ -36,7 +35,6 @@ public class MyDataBase extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
-       // Log.w("LOG_TAG", "Upgrading DB from version " + oldVersion + " to version " + newVersion);
         sqLiteDatabase.execSQL(SQL_DELETE_ENTRIES);
         onCreate(sqLiteDatabase);
     }

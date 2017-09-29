@@ -17,9 +17,9 @@
         android:layout_above="@+id/sum"
         android:layout_alignParentTop="true"
         android:gravity="center_vertical|center"
-        android:paddingLeft="0dp"
-        android:paddingRight="10dp"
-        android:text="Expense Reason:"
+        android:paddingStart="0dp"
+        android:paddingEnd="10dp"
+        android:text="@string/expense_reason"
         android:textSize="18sp"
         tools:text="Expense Reason" />
 
@@ -30,7 +30,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_toEndOf="@+id/expense"
-        android:hint="Food, Electricity ..."
+        android:hint="@string/food_electricity"
         android:inputType="text" />
 
 
@@ -43,8 +43,9 @@
         android:layout_below="@+id/expense"
         android:layout_toStartOf="@+id/expense_name"
         android:gravity="center_vertical|center"
-        android:paddingRight="10dp"
-        android:text="Spent Sum:"
+        android:paddingStart="0dp"
+        android:paddingEnd="10dp"
+        android:text="@string/spent_sum"
         android:textSize="18sp"
         tools:text="Spent Sum" />
 
@@ -55,7 +56,7 @@
         android:layout_alignParentEnd="true"
         android:layout_alignStart="@+id/expense_name"
         android:layout_below="@+id/expense_name"
-        android:hint="13.37"
+        android:hint="@string/_13_37"
         android:inputType="numberDecimal" />
 
     <Button
@@ -66,7 +67,7 @@
         android:layout_below="@+id/sum"
         android:layout_marginStart="18dp"
         android:onClick="newEntry"
-        android:text="Add Data" />
+        android:text="@string/add_data" />
 
 
 </RelativeLayout>

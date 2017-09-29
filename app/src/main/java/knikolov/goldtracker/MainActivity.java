@@ -27,11 +27,6 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
 
     ListView mainListView;
-
-    //set up popup
-    private PopupWindow pw;
-    private View popupView;
-    private LayoutInflater inflater;
     public static int count;
     CustomListViewAdapter adapter;
     float totalSum=0;
@@ -45,6 +40,9 @@ public class MainActivity extends AppCompatActivity {
             arr[i] = source.get(i).getName();
         }
         return arr;
+    }
+    public String getDeleteDate(List<EntryTemplate> source, int i){
+        return source.get(i).getDate();
     }
 
     public String[] getDates(List<EntryTemplate> source){
@@ -100,8 +98,8 @@ public class MainActivity extends AppCompatActivity {
                             public void onClick(DialogInterface dialogInterface, int i) {
                                 final MyDataBase mydb = new MyDataBase(MainActivity.this);
                                 final SQLiteDatabase sqdb = mydb.getWritableDatabase();
-                                int delete = selectedItem + 1;
-                                String query = "DELETE FROM " + mydb.TABLE_NAME + " WHERE "+ mydb.ID+ " = " + delete;
+                                String entryToDelete = getDeleteDate(entries, selectedItem);
+                                String query = "DELETE FROM " + mydb.TABLE_NAME + " WHERE "+ mydb.DATE+ " = '" + entryToDelete + "';";
                                 sqdb.execSQL(query);
                                 sqdb.close();
                                 mydb.close();
@@ -214,7 +212,7 @@ public class MainActivity extends AppCompatActivity {
                         SharedPreferences p = getSharedPreferences("GoldTrackerPrefs", MODE_PRIVATE);
                         SharedPreferences.Editor prefEditor = p.edit();
                         prefEditor.putString("Currency", currency);
-                        prefEditor.commit();
+                        prefEditor.apply();
                         finish();
                         startActivity(getIntent());
                     }
