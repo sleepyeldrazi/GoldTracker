@@ -20,14 +20,16 @@ public class CustomListViewAdapter extends ArrayAdapter<String> {
     private String[] expenseName;
     private String[] expenseDate;
     private Float[] expenseSum;
+    private String currency;
 
 
-    public CustomListViewAdapter(Activity context, String[] expenseName, String[] expenseDate, Float[] expenseSum) {
+    public CustomListViewAdapter(Activity context, String[] expenseName, String[] expenseDate, Float[] expenseSum, String currency) {
         super(context, R.layout.custom_list_view, expenseName);
         this.context = context;
         this.expenseName = expenseName;
         this.expenseDate = expenseDate;
         this.expenseSum = expenseSum;
+        this.currency = currency;
     }
 
     public String[] getExpenseName() {
@@ -46,7 +48,7 @@ public class CustomListViewAdapter extends ArrayAdapter<String> {
         // Setting all values in listview
         reason.setText(expenseName[position]);
         date.setText(expenseDate[position]);
-        sum.setText(String.format("%.2f", expenseSum[position]) + " €");
+        sum.setText(String.format("%.2f", expenseSum[position]) + " " + currency);
         return vi;
     }
 }

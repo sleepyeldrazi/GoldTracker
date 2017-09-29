@@ -17,7 +17,7 @@ public class MyDataBase extends SQLiteOpenHelper {
     public static final String ID = "_id";
     public static final String EXPENSE = "expense";
     public static final String SUM = "sum";
-    public static final String DATE ="date";
+    public static final String DATE ="dateOfExpense";
 
     private static final String SQL_CREATE_ENTRIES = "CREATE TABLE " + TABLE_NAME + " ( " + ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
             + EXPENSE + " VARCHAR(30), " + SUM + " DECIMAL(10,2), " + DATE + " DATE);";
