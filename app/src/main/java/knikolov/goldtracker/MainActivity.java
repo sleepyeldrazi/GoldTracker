@@ -10,17 +10,16 @@ import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 
@@ -30,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
     public static int count;
     CustomListViewAdapter adapter;
     float totalSum=0;
-    private String currency;
+    private String currency="";
 
     public static List<EntryTemplate> entries;
 
@@ -69,7 +68,11 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences p = getSharedPreferences("GoldTrackerPrefs", MODE_PRIVATE);
         currency = p.getString("Currency", currency);
 
+        Calendar calendar = Calendar.getInstance();
 
+        int thisMonth = calendar.get(Calendar.MONTH);
+        int thisYear = calendar.get(Calendar.YEAR);
+        thisMonth++;
 
         //set up database
         final MyDataBase mydb = new MyDataBase(this);
@@ -77,12 +80,21 @@ public class MainActivity extends AppCompatActivity {
         String query = "SELECT " + mydb.EXPENSE + ", " + mydb.SUM + ", " + mydb.DATE + " FROM " + mydb.TABLE_NAME;
         final Cursor cursor = sqdb.rawQuery(query, null);
         count = cursor.getCount();
+
         while(cursor.moveToNext()){
             entries.add(new EntryTemplate(cursor.getString(cursor.getColumnIndex(mydb.EXPENSE)),cursor.getString(cursor.getColumnIndex(mydb.DATE)), cursor.getFloat(cursor.getColumnIndex(mydb.SUM)))) ;
-            totalSum+=cursor.getFloat(cursor.getColumnIndex(mydb.SUM));
+
         }
         cursor.close();
 
+        String queryTotal = "SELECT " + mydb.SUM + " , strftime('%m'," + mydb.DATE +" ) as Month, "+ "strftime('%Y'," + mydb.DATE +" ) as Year"+" from " + mydb.TABLE_NAME;
+        final Cursor cursorTotal = sqdb.rawQuery(queryTotal, null);
+        while (cursorTotal.moveToNext()){
+            if(thisMonth == cursorTotal.getFloat(cursorTotal.getColumnIndex("Month")) && thisYear ==  cursorTotal.getFloat(cursorTotal.getColumnIndex("Year"))){
+                totalSum+=cursorTotal.getFloat(cursorTotal.getColumnIndex(mydb.SUM));
+            }
+        }
+        cursorTotal.close();
 
         adapter = new
                 CustomListViewAdapter(MainActivity.this, getReasons(entries), getDates(entries), getSums(entries), currency);
@@ -124,13 +136,13 @@ public class MainActivity extends AppCompatActivity {
 
         MyDataBase mydb = new MyDataBase(this);
         SQLiteDatabase sqdb = mydb.getWritableDatabase();
-        String query = "select SUM( "+ mydb.SUM  + " ) as totalSum, strftime('%m'," + mydb.DATE +" ) as Month from " +  mydb.TABLE_NAME + " GROUP BY strftime('%m', "+ mydb.DATE +");";
+        String query = "select SUM( "+ mydb.SUM  + " ) as totalSum, "+"strftime('%Y'," + mydb.DATE +" ) as Year" +" , strftime('%m'," + mydb.DATE +" ) as Month from " +  mydb.TABLE_NAME + " GROUP BY strftime('%Y-%m', "+ mydb.DATE +");";
         Cursor cursor = sqdb.rawQuery(query, null);
         ArrayList<String> summary = new ArrayList<>();
 
         while(cursor.moveToNext()){
             //TODO: string array with months, remove switch
-            summary.add(convertToNameOfMonth(cursor.getString(cursor.getColumnIndex("Month"))) + cursor.getString(cursor.getColumnIndex("totalSum")));
+            summary.add(cursor.getString(cursor.getColumnIndex("Year"))+ " " +convertToNameOfMonth(cursor.getString(cursor.getColumnIndex("Month"))) + cursor.getString(cursor.getColumnIndex("totalSum")));
         }
         mydb.close();
         sqdb.close();
@@ -139,7 +151,7 @@ public class MainActivity extends AppCompatActivity {
         String[] summaryArray = new String[summary.size()];
         summaryArray = summary.toArray(summaryArray);
         Dialog d = new AlertDialog.Builder(MainActivity.this)
-                .setTitle("Create New")
+                .setTitle("Month Summary")
                 .setNegativeButton("Cancel", null)
                 .setItems(summaryArray, new DialogInterface.OnClickListener(){
                     @Override

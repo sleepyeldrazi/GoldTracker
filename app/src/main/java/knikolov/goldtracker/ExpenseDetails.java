@@ -30,7 +30,7 @@ public class ExpenseDetails extends AppCompatActivity {
         name = expenseName.getText().toString();
         MyDataBase mydb = new MyDataBase(this);
         SQLiteDatabase sqdb = mydb.getWritableDatabase();
-        String query = "INSERT INTO "+ mydb.TABLE_NAME + " (" + mydb.EXPENSE + ", " + mydb.SUM + ", " + mydb.DATE + ") VALUES (\"" + name + "\", " + sum + ",datetime());" ;
+        String query = "INSERT INTO "+ mydb.TABLE_NAME + " (" + mydb.EXPENSE + ", " + mydb.SUM + ", " + mydb.DATE + ") VALUES (\"" + name + "\", " + sum + ",datetime('now','localtime'));" ;
         sqdb.execSQL(query);
         sqdb.close();
         mydb.close();
