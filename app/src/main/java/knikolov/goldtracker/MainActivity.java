@@ -107,6 +107,7 @@ public class MainActivity extends AppCompatActivity {
         }
         cursorTotal.close();
 
+        //reverse list to make newest one on top
         Collections.reverse(entries);
 
         //add make an adapter from the entries and add them to the listview
