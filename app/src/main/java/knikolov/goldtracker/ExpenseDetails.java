@@ -24,12 +24,18 @@ public class ExpenseDetails extends AppCompatActivity {
 
     public void newEntry(View view){
 
+        //get info from editview
         EditText expenseName = (EditText) findViewById(R.id.expense_name);
         EditText expenseSum = (EditText) findViewById(R.id.sum);
+
         sum = Float.valueOf(expenseSum.getText().toString());
         name = expenseName.getText().toString();
+
+        //setup db
         MyDataBase mydb = new MyDataBase(this);
         SQLiteDatabase sqdb = mydb.getWritableDatabase();
+
+        //put in db
         String query = "INSERT INTO "+ mydb.TABLE_NAME + " (" + mydb.EXPENSE + ", " + mydb.SUM + ", " + mydb.DATE + ") VALUES (\"" + name + "\", " + sum + ",datetime('now','localtime'));" ;
         sqdb.execSQL(query);
         sqdb.close();

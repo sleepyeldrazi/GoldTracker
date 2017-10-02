@@ -6,6 +6,8 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 /**
  * Created by Konik on 9/24/17.
+ * db setup class, db has id, nameOfExpense, sumOfExpense, dateOfExpense
+ * + deletes old version if new version exists
  */
 
 public class MyDataBase extends SQLiteOpenHelper {

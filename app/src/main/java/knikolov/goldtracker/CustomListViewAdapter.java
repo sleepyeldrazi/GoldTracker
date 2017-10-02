@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 public class CustomListViewAdapter extends ArrayAdapter<String> {
 
+    //TODO: try to use List for expenseName, expenseDate and expenseSum
     private Activity context;
     private String[] expenseName;
     private String[] expenseDate;
@@ -27,17 +28,15 @@ public class CustomListViewAdapter extends ArrayAdapter<String> {
         this.currency = currency;
     }
 
-    public String[] getExpenseName() {
-        return expenseName;
-    }
+
 
     public View getView(int position, View convertView, ViewGroup parent) {
         LayoutInflater inflater = context.getLayoutInflater();
         View vi= inflater.inflate(R.layout.custom_list_view, null, true);
 
-        TextView reason = vi.findViewById(R.id.reasonOfExpense); // title
-        TextView date = vi.findViewById(R.id.dateOfExpense); // artist name
-        TextView sum = vi.findViewById(R.id.sumOfExpense); // duration
+        TextView reason = vi.findViewById(R.id.reasonOfExpense); // expense name
+        TextView date = vi.findViewById(R.id.dateOfExpense); // expense date
+        TextView sum = vi.findViewById(R.id.sumOfExpense); // total sum
 
 
         // Setting all values in listview

@@ -2,6 +2,7 @@ package knikolov.goldtracker;
 
 /**
  * Created by Konik on 9/24/17.
+ * Class for holding entry data
  */
 
 public class EntryTemplate {
