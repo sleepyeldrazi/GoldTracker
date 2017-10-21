@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">Gold Tracker</string>
+    <string name="title_activity_expense_details">ExpenseDetails</string>
+    <string name="expense_reason">Expense Reason:</string>
+    <string name="food_electricity">Food, Electricity …</string>
+    <string name="spent_sum">Spent Sum:</string>
+    <string name="_13_37">13.37</string>
+    <string name="add_data">Add Data</string>
+    <string name="_5_45">5:45</string>
+    <string name="total_sum">This Month:</string>
+    <string name="new_entry">New Entry</string>
+    <string name="_07_01_1998">07.01.1998</string>
+    <string name="example">Example</string>
+    <string name="set_currency">Set Currency</string>
+</resources>
